@@ -13,9 +13,9 @@ struct Character: Codable {
     let status: CharacterStatus
     let species: String
     let type: String
-    let gender: String
+    let gender: CharacterGender
     let origin: Origin
-    let location: SingleLocation
+    let location: CharacterLocation
     let image: String
     let episode: [String]
     let url: String
