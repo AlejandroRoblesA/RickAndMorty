@@ -24,6 +24,12 @@ final class CharacterViewController: UIViewController {
         print(request.url)
         
         Service.shared.execute(request, expecting: Character.self) { result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                print(String(describing: error))
+            }
         }
     }
 }
