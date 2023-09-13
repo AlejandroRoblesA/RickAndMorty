@@ -17,7 +17,10 @@ final class CharacterViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         title = "Characters"
-        
+        setupView()
+    }
+    
+    private func setupView() {
         view.addSubview(characterListView)
         
         NSLayoutConstraint.activate([
