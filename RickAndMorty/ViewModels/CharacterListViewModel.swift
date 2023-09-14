@@ -27,7 +27,11 @@ extension CharacterListViewModel: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCollectionViewCell.cellIdentifier, for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCollectionViewCell.cellIdentifier, for: indexPath) as? CharacterCollectionViewCell else {
+            fatalError("Unsupported cell")
+        }
+        let viewModel = CharacterCollectionViewCellViewModel(characterName: "Alex", characterStatus: .alive, characterImageUrl: nil)
+        cell.configure(with: viewModel)
         return cell
     }
 }
