@@ -66,8 +66,6 @@ final class CharacterCollectionViewCell: UICollectionViewCell {
         ])
         
         imageView.backgroundColor = .blue
-        nameLabel.backgroundColor = .red
-        statusLabel.backgroundColor = .orange
     }
     
     override func prepareForReuse() {
@@ -78,6 +76,19 @@ final class CharacterCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: CharacterCollectionViewCellViewModel) {
-        
+        nameLabel.text = viewModel.characterName
+        statusLabel.text = viewModel.characterStatusText
+        viewModel.fectchImage { [weak self] result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    let image = UIImage(data: data)
+                    self?.imageView.image = image
+                }
+            case .failure(let error):
+                print(String(describing: error))
+                break
+            }
+        }
     }
 }
