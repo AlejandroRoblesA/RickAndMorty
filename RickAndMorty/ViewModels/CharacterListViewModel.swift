@@ -8,12 +8,25 @@
 import UIKit
 
 final class CharacterListViewModel: NSObject {
+    
+    private var characters: [Character] = [] {
+        didSet {
+            for character in characters {
+                let viewModel = CharacterCollectionViewCellViewModel(characterName: character.name,
+                                                                     characterStatus: character.status,
+                                                                     characterImageUrl: URL(string: character.image))
+                cellViewModels.append(viewModel)
+            }
+        }
+    }
+    private var cellViewModels: [CharacterCollectionViewCellViewModel] = []
    
-    func fetchCharacters() {
-        Service.shared.execute(.listCharactersRequest, expecting: GetAllCharactersResponse.self) { result in
+    public func fetchCharacters() {
+        Service.shared.execute(.listCharactersRequest, expecting: GetAllCharactersResponse.self) { [weak self] result in
             switch result {
-            case .success(let model):
-                print("Example image url:" + String(model.results.first?.image ?? "No image"))
+            case .success(let responseModel):
+                let results = responseModel.results
+                self?.characters = results
             case .failure(let error):
                 print(String(describing: error))
             }
@@ -23,7 +36,7 @@ final class CharacterListViewModel: NSObject {
 
 extension CharacterListViewModel: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return cellViewModels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
