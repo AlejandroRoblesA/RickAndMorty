@@ -43,8 +43,7 @@ extension CharacterListViewModel: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCollectionViewCell.cellIdentifier, for: indexPath) as? CharacterCollectionViewCell else {
             fatalError("Unsupported cell")
         }
-        let viewModel = CharacterCollectionViewCellViewModel(characterName: "Alejandro", characterStatus: .alive, characterImageUrl: URL(string:"https://rickandmortyapi.com/api/character/avatar/1.jpeg"))
-        cell.configure(with: viewModel)
+        cell.configure(with: cellViewModels[indexPath.row])
         return cell
     }
 }
