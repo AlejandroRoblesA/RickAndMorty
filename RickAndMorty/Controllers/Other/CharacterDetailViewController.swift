@@ -9,8 +9,10 @@ import UIKit
 
 /// Controller to show info about single character
 class CharacterDetailViewController: UIViewController {
+    private var viewModel: CharacterDetailViewModel
     
     init(viewModel: CharacterDetailViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -22,5 +24,6 @@ class CharacterDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        title = viewModel.title
     }
 }

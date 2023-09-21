@@ -39,6 +39,7 @@ extension CharacterViewController: CharacterListViewDelegate {
         // Open detail controller for that character
         let viewModel = CharacterDetailViewModel(character: character)
         let detailViewController = CharacterDetailViewController(viewModel: viewModel)
+        detailViewController.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
