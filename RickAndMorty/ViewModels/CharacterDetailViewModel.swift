@@ -8,6 +8,12 @@
 import Foundation
 
 final class CharacterDetailViewModel {
-    init () {
+    private let character: Character
+    init(character: Character) {
+        self.character = character
+    }
+    
+    public var title: String {
+        character.name.uppercased()
     }
 }
