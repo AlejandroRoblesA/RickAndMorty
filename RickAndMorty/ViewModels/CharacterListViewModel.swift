@@ -20,6 +20,7 @@ final class CharacterListViewModel: NSObject {
         return apiInfo?.next != nil
     }
     
+    private var isLoadingMoreCharacters = false
     private var characters: [Character] = [] {
         didSet {
             for character in characters {
@@ -55,6 +56,7 @@ final class CharacterListViewModel: NSObject {
     /// Paginate if additional characters are needed
     public func fetchAdditionalCharacters() {
         // TODO: Fetch characters
+        isLoadingMoreCharacters = true
     }
 }
 
@@ -72,6 +74,18 @@ extension CharacterListViewModel: UICollectionViewDataSource {
         cell.configure(with: cellViewModels[indexPath.row])
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionFooter,
+              let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                           withReuseIdentifier: FooterLoadingCollectionReusableView.identifier,
+                                                                           for: indexPath) as? FooterLoadingCollectionReusableView
+        else {
+            fatalError("Unsupported")
+        }
+        footer.startAnimating()
+        return footer
+    }
 }
 
 extension CharacterListViewModel: UICollectionViewDelegateFlowLayout {
@@ -87,11 +101,25 @@ extension CharacterListViewModel: UICollectionViewDelegateFlowLayout {
         let character = characters[indexPath.row]
         delegate?.didSelectCharacter(character)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard shouldShowLoadMoreIndicator else {
+            return .zero
+        }
+        return CGSize(width: collectionView.frame.width, height: 100)
+    }
 }
 
 // MARK: - ScrollView Delegate
 extension CharacterListViewModel: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard shouldShowLoadMoreIndicator else { return }
+        guard shouldShowLoadMoreIndicator, !isLoadingMoreCharacters else { return }
+        let offset = scrollView.contentOffset.y
+        let totalContentHeight = scrollView.contentSize.height
+        let totalScrollViewFixedHeight = scrollView.frame.size.height
+        
+        if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
+            fetchAdditionalCharacters()
+        }
     }
 }
