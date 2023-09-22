@@ -74,10 +74,14 @@ extension CharacterListViewModel: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionFooter else { return UICollectionReusableView() }
-        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                     withReuseIdentifier: FooterLoadingCollectionReusableView.identifier,
-                                                                     for: indexPath)
+        guard kind == UICollectionView.elementKindSectionFooter,
+              let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                           withReuseIdentifier: FooterLoadingCollectionReusableView.identifier,
+                                                                           for: indexPath) as? FooterLoadingCollectionReusableView
+        else {
+            fatalError("Unsupported")
+        }
+        footer.startAnimating()
         return footer
     }
 }
@@ -97,6 +101,9 @@ extension CharacterListViewModel: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard shouldShowLoadMoreIndicator else {
+            return .zero
+        }
         return CGSize(width: collectionView.frame.width, height: 100)
     }
 }
