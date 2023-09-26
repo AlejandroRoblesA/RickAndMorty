@@ -55,6 +55,9 @@ final class CharacterListViewModel: NSObject {
     
     /// Paginate if additional characters are needed
     public func fetchAdditionalCharacters(url: URL) {
+        guard !isLoadingMoreCharacters else {
+            return
+        }
         isLoadingMoreCharacters = true
         print("Fetching more characters")
         guard let request = Request(url: url) else {
