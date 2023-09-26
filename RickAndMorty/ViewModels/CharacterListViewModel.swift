@@ -54,9 +54,22 @@ final class CharacterListViewModel: NSObject {
     }
     
     /// Paginate if additional characters are needed
-    public func fetchAdditionalCharacters() {
-        // TODO: Fetch characters
+    public func fetchAdditionalCharacters(url: URL) {
         isLoadingMoreCharacters = true
+        print("Fetching more characters")
+        guard let request = Request(url: url) else {
+            isLoadingMoreCharacters = false
+            print("Failed to create request")
+            return
+        }
+        Service.shared.execute(request, expecting: GetAllCharactersResponse.self) { result in
+            switch result {
+            case .success(let success):
+                print(String(describing: success))
+            case .failure(let failure):
+                print(String(describing: failure))
+            }
+        }
     }
 }
 
@@ -113,13 +126,22 @@ extension CharacterListViewModel: UICollectionViewDelegateFlowLayout {
 // MARK: - ScrollView Delegate
 extension CharacterListViewModel: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard shouldShowLoadMoreIndicator, !isLoadingMoreCharacters else { return }
+        guard 
+            shouldShowLoadMoreIndicator,
+            !isLoadingMoreCharacters,
+            !cellViewModels.isEmpty,
+            let nextUrlString = apiInfo?.next,
+            let url = URL(string: nextUrlString)
+        else { return }
         let offset = scrollView.contentOffset.y
-        let totalContentHeight = scrollView.contentSize.height
-        let totalScrollViewFixedHeight = scrollView.frame.size.height
-        
-        if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
-            fetchAdditionalCharacters()
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] timer in
+            let totalContentHeight = scrollView.contentSize.height
+            let totalScrollViewFixedHeight = scrollView.frame.size.height
+            
+            if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
+                self?.fetchAdditionalCharacters(url: url)
+            }
+            timer.invalidate()
         }
     }
 }
