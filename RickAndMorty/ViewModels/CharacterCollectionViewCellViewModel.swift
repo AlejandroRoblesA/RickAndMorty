@@ -7,11 +7,7 @@
 
 import Foundation
 
-final class CharacterCollectionViewCellViewModel: Hashable, Equatable {
-    static func == (lhs: CharacterCollectionViewCellViewModel, rhs: CharacterCollectionViewCellViewModel) -> Bool {
-        return lhs.hashValue == rhs.hashValue
-    }
-    
+final class CharacterCollectionViewCellViewModel {
     
     public let characterName: String
     private let characterStatus: CharacterStatus
@@ -28,25 +24,25 @@ final class CharacterCollectionViewCellViewModel: Hashable, Equatable {
         self.characterImageUrl = characterImageUrl
     }
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(characterName)
-        hasher.combine(characterStatus)
-        hasher.combine(characterImageUrl)
-    }
-    
     public func fectchImage(completion: @escaping (Result<Data, Error>) -> Void) {
-        // TODO: Abstract to Image Manager
         guard let url = characterImageUrl else {
             completion(.failure(URLError(.badURL)))
             return
         }
-        let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
-                completion(.failure(error ?? URLError(.badServerResponse)))
-                return
-            }
-            completion(.success(data))
-        }.resume()
+        ImageLoader.shared.downloadImage(url, completion: completion)
+    }
+}
+
+// MARK: - Hashable
+extension CharacterCollectionViewCellViewModel: Hashable, Equatable {
+
+    static func == (lhs: CharacterCollectionViewCellViewModel, rhs: CharacterCollectionViewCellViewModel) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(characterName)
+        hasher.combine(characterStatus)
+        hasher.combine(characterImageUrl)
     }
 }
