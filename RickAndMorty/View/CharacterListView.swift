@@ -81,6 +81,11 @@ extension CharacterListView: CharacterListViewModelDelegate {
         delegate?.characterListView(self, didSelectCharacter: character)
     }
     
+    func didLoadMoreCharacters(with newIndexPath: [IndexPath]) {
+        collectionView.performBatchUpdates {
+            self.collectionView.insertItems(at: newIndexPath)
+        }
+    }
     
     func didLoadInitialCharacters() {
         spinner.stopAnimating()

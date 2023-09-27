@@ -7,7 +7,11 @@
 
 import Foundation
 
-final class CharacterCollectionViewCellViewModel {
+final class CharacterCollectionViewCellViewModel: Hashable, Equatable {
+    static func == (lhs: CharacterCollectionViewCellViewModel, rhs: CharacterCollectionViewCellViewModel) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
     
     public let characterName: String
     private let characterStatus: CharacterStatus
@@ -22,6 +26,12 @@ final class CharacterCollectionViewCellViewModel {
         self.characterName = characterName
         self.characterStatus = characterStatus
         self.characterImageUrl = characterImageUrl
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(characterName)
+        hasher.combine(characterStatus)
+        hasher.combine(characterImageUrl)
     }
     
     public func fectchImage(completion: @escaping (Result<Data, Error>) -> Void) {
