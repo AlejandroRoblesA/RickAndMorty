@@ -32,7 +32,6 @@ class CharacterDetailViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(didTapShare))
         addConstraints()
-        viewModel.fetchCharacterData()
     }
     
     private func addConstraints() {
