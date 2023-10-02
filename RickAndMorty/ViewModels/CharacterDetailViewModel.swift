@@ -16,4 +16,15 @@ final class CharacterDetailViewModel {
     public var title: String {
         character.name.uppercased()
     }
+    
+    public var requestUrl: URL? {
+        return URL(string: character.url)
+    }
+    
+    public func fetchCharacterData() {
+        guard 
+            let url = requestUrl,
+            let request = Request(url: url)
+        else { return }
+    }
 }
