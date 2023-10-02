@@ -28,6 +28,9 @@ class CharacterDetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = viewModel.title
         view.addSubview(detailView)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
+                                                            target: self,
+                                                            action: #selector(didTapShare))
         addConstraints()
     }
     
@@ -38,5 +41,9 @@ class CharacterDetailViewController: UIViewController {
             detailView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             detailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    @objc private func didTapShare() {
+        // Share character info
     }
 }
