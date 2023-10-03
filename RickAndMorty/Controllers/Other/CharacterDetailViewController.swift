@@ -10,11 +10,12 @@ import UIKit
 /// Controller to show info about single character
 class CharacterDetailViewController: UIViewController {
     private var viewModel: CharacterDetailViewModel
-    private let detailView = CharacterDetailView()
+    private let detailView: CharacterDetailView
     
     // MARK: - Init
     init(viewModel: CharacterDetailViewModel) {
         self.viewModel = viewModel
+        self.detailView = CharacterDetailView(frame: .zero, viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,6 +33,8 @@ class CharacterDetailViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(didTapShare))
         addConstraints()
+        detailView.collectionView?.delegate = self
+        detailView.collectionView?.dataSource = self
     }
     
     private func addConstraints() {
@@ -45,5 +48,31 @@ class CharacterDetailViewController: UIViewController {
     
     @objc private func didTapShare() {
         // Share character info
+    }
+}
+
+// MARK: - CollectionView
+
+extension CharacterDetailViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        if indexPath.section == 0 {
+            cell.backgroundColor = .systemPink
+        } else if indexPath.section == 1 {
+            cell.backgroundColor = .systemGreen
+        } else {
+            cell.backgroundColor = .systemBlue
+        }
+        return cell
+    }
+}
+
+extension CharacterDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        viewModel.sections.count
     }
 }
