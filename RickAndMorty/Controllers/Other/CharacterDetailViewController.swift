@@ -32,6 +32,8 @@ class CharacterDetailViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(didTapShare))
         addConstraints()
+        detailView.collectionView?.delegate = self
+        detailView.collectionView?.dataSource = self
     }
     
     private func addConstraints() {
@@ -45,5 +47,21 @@ class CharacterDetailViewController: UIViewController {
     
     @objc private func didTapShare() {
         // Share character info
+    }
+}
+
+// MARK: - CollectionView
+
+extension CharacterDetailViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        cell.backgroundColor = .systemPink
+        return cell
+    }
+}
+
+extension CharacterDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 20
     }
 }
