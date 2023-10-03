@@ -10,11 +10,12 @@ import UIKit
 /// Controller to show info about single character
 class CharacterDetailViewController: UIViewController {
     private var viewModel: CharacterDetailViewModel
-    private let detailView = CharacterDetailView()
+    private let detailView: CharacterDetailView
     
     // MARK: - Init
     init(viewModel: CharacterDetailViewModel) {
         self.viewModel = viewModel
+        self.detailView = CharacterDetailView(frame: .zero, viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
     }
     
