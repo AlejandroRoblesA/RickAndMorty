@@ -104,14 +104,15 @@ final class CharacterDetailView: UIView {
     private func createEpisodeSectionLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                                              heightDimension: .fractionalHeight(1.0)))
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0,
-                                                     leading: 0,
+        item.contentInsets = NSDirectionalEdgeInsets(top: 10,
+                                                     leading: 10,
                                                      bottom: 10,
-                                                     trailing: 0)
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                     trailing: 10)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8),
                                                                                         heightDimension: .absolute(150)),
                                                      subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
         return section
     }
 }
