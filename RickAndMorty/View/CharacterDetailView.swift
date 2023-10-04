@@ -81,7 +81,7 @@ final class CharacterDetailView: UIView {
                                                      bottom: 10,
                                                      trailing: 0)
         let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                                                        heightDimension: .absolute(150)),
+                                                                                        heightDimension: .fractionalHeight(0.5)),
                                                      subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         return section
