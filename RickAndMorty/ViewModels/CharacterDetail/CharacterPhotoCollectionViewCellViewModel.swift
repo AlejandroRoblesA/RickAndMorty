@@ -8,5 +8,8 @@
 import Foundation
 
 final class CharacterPhotoCollectionViewCellViewModel {
-    init () {}
+    private let imageUrl: URL?
+    init (imageUrl: URL?) {
+        self.imageUrl = imageUrl
+    }
 }
