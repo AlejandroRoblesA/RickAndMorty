@@ -43,6 +43,16 @@ final class CharacterPhotoCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: CharacterPhotoCollectionViewCellViewModel) {
-        
+        viewModel.fetchImage { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self.imageView.image = UIImage(data: data)
+                }
+            case .failure(_):
+                break
+            }
+        }
     }
 }
