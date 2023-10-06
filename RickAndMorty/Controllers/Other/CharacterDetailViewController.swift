@@ -64,7 +64,6 @@ extension CharacterDetailViewController: UICollectionViewDelegate {
                                                               for: indexPath) as? CharacterPhotoCollectionViewCell
             else { fatalError() }
             cell.configure(with: viewModel)
-            cell.backgroundColor = .systemBlue
             return cell
         case .information(viewModels: let viewModels):
             guard
@@ -72,7 +71,6 @@ extension CharacterDetailViewController: UICollectionViewDelegate {
                                                               for: indexPath) as? CharacterInfoCollectionViewCell
             else { fatalError() }
             cell.configure(with: viewModels[indexPath.row])
-            cell.backgroundColor = .systemRed
             return cell
         case .episodes(viewModels: let viewModels):
             guard
@@ -80,7 +78,6 @@ extension CharacterDetailViewController: UICollectionViewDelegate {
                                                               for: indexPath) as? CharacterEpisodeCollectionViewCell
             else { fatalError() }
             cell.configure(with: viewModels[indexPath.row])
-            cell.backgroundColor = .systemOrange
             return cell
         }
     }
