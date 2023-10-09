@@ -10,10 +10,34 @@ import UIKit
 final class CharacterInfoCollectionViewCell: UICollectionViewCell {
     static let cellIdentifier = "CharacterInfoCollectionViewCell"
     
+    private let valueLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Earth"
+        return label
+    }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Location"
+        return label
+    }()
+    
+    private let iconImageView: UIImageView = {
+        let icon = UIImageView()
+        icon.image = UIImage(systemName: "globe.americas")
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        return icon
+    }()
+    
+    // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .tertiarySystemBackground
         contentView.layer.cornerRadius = 8
+        contentView.addSubviews(titleLabel, valueLabel, iconImageView)
+        setUpConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -22,6 +46,9 @@ final class CharacterInfoCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        valueLabel.text = nil
+        titleLabel.text = nil
+        iconImageView.image = nil
     }
     
     private func setUpConstraints() {
