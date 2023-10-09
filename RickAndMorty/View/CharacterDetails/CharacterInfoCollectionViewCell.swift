@@ -31,12 +31,20 @@ final class CharacterInfoCollectionViewCell: UICollectionViewCell {
         return icon
     }()
     
+    private let titleContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .secondarySystemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .tertiarySystemBackground
         contentView.layer.cornerRadius = 8
-        contentView.addSubviews(titleLabel, valueLabel, iconImageView)
+        contentView.addSubviews(titleContainerView, valueLabel, iconImageView)
+        titleContainerView.addSubview(titleLabel)
         setUpConstraints()
     }
     
@@ -52,7 +60,12 @@ final class CharacterInfoCollectionViewCell: UICollectionViewCell {
     }
     
     private func setUpConstraints() {
-        
+        NSLayoutConstraint.activate([
+            titleContainerView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            titleContainerView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            titleContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            titleContainerView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.33)
+        ])
     }
     
     public func configure(with viewModel: CharacterInfoCollectionViewCellViewModel) {
