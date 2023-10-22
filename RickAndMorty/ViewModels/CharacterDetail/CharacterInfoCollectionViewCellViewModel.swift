@@ -26,7 +26,7 @@ final class CharacterInfoCollectionViewCellViewModel {
         return type.tintColor
     }
     
-    enum `Type`{
+    enum `Type`: String {
         case status
         case gender
         case type
@@ -79,23 +79,10 @@ final class CharacterInfoCollectionViewCellViewModel {
         }
         
         var displayTitle: String {
-            switch self {
-            case .status:
-                return ""
-            case .gender:
-                return ""
-            case .type:
-                return ""
-            case .spcecies:
-                return ""
-            case .origin:
-                return ""
-            case .created:
-                return ""
-            case .location:
-                return ""
-            case .episodeCount:
-                return ""
+            if self == .episodeCount {
+                return "EPISODE COUNT"
+            } else {
+                return rawValue.uppercased()
             }
         }
     }
