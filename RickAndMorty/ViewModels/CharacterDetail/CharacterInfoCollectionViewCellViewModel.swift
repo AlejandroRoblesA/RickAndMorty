@@ -10,11 +10,30 @@ import UIKit
 final class CharacterInfoCollectionViewCellViewModel {
     private let type: `Type`
     private let value: String
+    
+    static let dataFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
+        formatter.timeZone = .current
+        return formatter
+    }()
+    
+    static let shortDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    
     public var title: String {
         type.displayTitle
     }
     public var displayValue: String {
         if value.isEmpty { return "None" }
+        if let date = Self.dataFormatter.date(from: value), 
+            type == .created {
+            return Self.shortDateFormatter.string(from: date)
+        }
         return value
     }
     
