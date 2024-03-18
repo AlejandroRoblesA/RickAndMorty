@@ -29,6 +29,6 @@ final class CharacterEpisodeCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: CharacterEpisodeCollectionViewCellViewModel) {
-        
+        viewModel.fetchEpisode()
     }
 }
