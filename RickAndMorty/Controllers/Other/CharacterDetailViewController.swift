@@ -8,7 +8,7 @@
 import UIKit
 
 /// Controller to show info about single character
-class CharacterDetailViewController: UIViewController {
+final class CharacterDetailViewController: UIViewController {
     private var viewModel: CharacterDetailViewModel
     private let detailView: CharacterDetailView
     
@@ -80,6 +80,19 @@ extension CharacterDetailViewController: UICollectionViewDelegate {
             let viewModel = viewModels[indexPath.row]
             cell.configure(with: viewModel)
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let sectionType = viewModel.sections[indexPath.section]
+        switch sectionType {
+        case .photo, .information:
+            break
+        case .episodes:
+            let episodes = self.viewModel.episodes
+            let selection = episodes[indexPath.row]
+            let episodeDetailVC = EpisodeDetailViewController(url: URL(string: selection))
+            navigationController?.pushViewController(episodeDetailVC, animated: true)
         }
     }
 }
