@@ -8,7 +8,7 @@
 import Foundation
 
 /// Represents unique API endpoints
-@frozen enum Endpoint: String {
+@frozen enum Endpoint: String, CaseIterable, Hashable {
     /// Endpoint to get character information
     case character
     /// Endpoint to get location information
