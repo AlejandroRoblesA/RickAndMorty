@@ -60,3 +60,15 @@ final class CharacterEpisodeCollectionViewCellViewModel {
         }
     }
 }
+
+extension CharacterEpisodeCollectionViewCellViewModel: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.episodeDataUrl?.absoluteString ?? String())
+    }
+}
+
+extension CharacterEpisodeCollectionViewCellViewModel: Equatable {
+    static func == (lhs: CharacterEpisodeCollectionViewCellViewModel, rhs: CharacterEpisodeCollectionViewCellViewModel) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+}
