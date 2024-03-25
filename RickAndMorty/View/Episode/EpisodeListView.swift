@@ -33,8 +33,8 @@ final class EpisodeListView: UIView {
         collectionView.isHidden = true
         collectionView.alpha = 0
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(CharacterCollectionViewCell.self,
-                                forCellWithReuseIdentifier: CharacterCollectionViewCell.cellIdentifier)
+        collectionView.register(CharacterEpisodeCollectionViewCell.self,
+                                forCellWithReuseIdentifier: CharacterEpisodeCollectionViewCell.cellIdentifier)
         collectionView.register(FooterLoadingCollectionReusableView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                                 withReuseIdentifier: FooterLoadingCollectionReusableView.identifier)
@@ -48,7 +48,7 @@ final class EpisodeListView: UIView {
         addConstraints()
         spinner.startAnimating()
         viewModel.delegate = self
-        viewModel.fetchCharacters()
+        viewModel.fetchEpisodes()
         setupCollectionView()
     }
 
@@ -71,14 +71,14 @@ final class EpisodeListView: UIView {
     }
     
     private func setupCollectionView() {
-//        collectionView.dataSource = viewModel
-//        collectionView.delegate = viewModel
+        collectionView.dataSource = viewModel
+        collectionView.delegate = viewModel
     }
 }
 
 extension EpisodeListView: EpisodeListViewModelDelegate {
     func didSelectEpisodes(_ episode: Episode) {
-        //        delegate?.characterListView(self, didSelectCharacter: character)
+        delegate?.episodeListView(self, didSelectEpisode: episode)
     }
 
     func didLoadMoreEpisodes(with newIndexPath: [IndexPath]) {
