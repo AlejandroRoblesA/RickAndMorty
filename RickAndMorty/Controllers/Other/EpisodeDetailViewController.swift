@@ -10,6 +10,7 @@ import UIKit
 final class EpisodeDetailViewController: UIViewController {
 
     private let viewModel: EpisodeDetailViewModel
+    private let detailView = EpisodeDetailView()
     
     init(url: URL?) {
         self.viewModel = .init(endpointUrl: url)
@@ -23,7 +24,22 @@ final class EpisodeDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.addSubview(detailView)
+        addConstraints()
         title = "Episode"
-        view.backgroundColor = .blue
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapShare))
+    }
+    
+    private func addConstraints() {
+        NSLayoutConstraint.activate([
+            detailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            detailView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            detailView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            detailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    @objc private func didTapShare() {
+        
     }
 }
