@@ -38,7 +38,9 @@ final class CharacterViewController: UIViewController {
     }
     
     @objc func didTapSearch() {
-        
+        let searchVC = SearchViewController(configuration: SearchViewController.Configuration(type: .character))
+        searchVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(searchVC, animated: true)
     }
 }
 
