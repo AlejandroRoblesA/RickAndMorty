@@ -5,7 +5,7 @@
 //  Created by Alejandro Robles on 05/10/23.
 //
 
-import Foundation
+import UIKit
 
 protocol EpisodeDataRenderProtocol {
     var name: String { get }
@@ -23,9 +23,11 @@ final class CharacterEpisodeCollectionViewCellViewModel {
             self.dataBlock?(model)
         }
     }
+    public let borderColor: UIColor
     //MARK: - Init
-    init(episodeDataUrl: URL?) {
+    init(episodeDataUrl: URL?, borderColor: UIColor = .systemBlue) {
         self.episodeDataUrl = episodeDataUrl
+        self.borderColor = borderColor
     }
     
     public func registerForData(_ block: @escaping (EpisodeDataRenderProtocol) -> Void) {

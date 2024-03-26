@@ -18,6 +18,7 @@ final class CharacterViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = "Characters"
         setupView()
+        addSearchButton()
     }
     
     private func setupView() {
@@ -30,6 +31,16 @@ final class CharacterViewController: UIViewController {
             characterListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+    }
+    
+    @objc func didTapSearch() {
+        let searchVC = SearchViewController(configuration: SearchViewController.Configuration(type: .character))
+        searchVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(searchVC, animated: true)
     }
 }
 
