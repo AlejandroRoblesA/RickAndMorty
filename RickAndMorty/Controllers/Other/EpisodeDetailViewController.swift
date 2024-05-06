@@ -7,13 +7,14 @@
 
 import UIKit
 
+// MARK: - EpisodeDetailViewController
 final class EpisodeDetailViewController: UIViewController {
 
     private let viewModel: EpisodeDetailViewModel
     private let detailView = EpisodeDetailView()
     
     init(url: URL?) {
-        self.viewModel = .init(endpointUrl: url)
+        self.viewModel = EpisodeDetailViewModel(endpointUrl: url)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -28,6 +29,8 @@ final class EpisodeDetailViewController: UIViewController {
         addConstraints()
         title = "Episode"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapShare))
+        viewModel.delegate = self
+        viewModel.fetchEpisodeData()
     }
     
     private func addConstraints() {
@@ -41,5 +44,12 @@ final class EpisodeDetailViewController: UIViewController {
     
     @objc private func didTapShare() {
         
+    }
+}
+
+// MARK: - EpisodeDetailViewModelDelegate
+extension EpisodeDetailViewController: EpisodeDetailViewModelDelegate {
+    func didFetchEpisodeDetails() {
+        detailView.configure(with: viewModel)
     }
 }
