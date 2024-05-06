@@ -7,15 +7,57 @@
 
 import Foundation
 
+protocol EpisodeDetailViewModelDelegate: AnyObject {
+    func didFetchEpisodeDetails()
+}
+
 final class EpisodeDetailViewModel {
     private let endpointUrl: URL?
+    private var dataTuple: (Episode, [Character])? {
+        didSet {
+            delegate?.didFetchEpisodeDetails()
+        }
+    }
+
+    public weak var delegate: EpisodeDetailViewModelDelegate?
     
+    // MARK: - Init
     init(endpointUrl: URL?) {
         self.endpointUrl = endpointUrl
-        fetchEpisodeData()
     }
     
-    private func fetchEpisodeData() {
+    // MARK: - Private functions
+    private func fetchRelatedCharacters(episode: Episode) {
+        let requests: [Request] = episode.characters.compactMap {
+            return URL(string: $0)
+        }.compactMap {
+            return Request(url: $0)
+        }
+        
+        let group = DispatchGroup()
+        var characters: [Character] = []
+        for request in requests {
+            group.enter()
+            Service.shared.execute(request, expecting: Character.self) { result in
+                defer {
+                    group.leave()
+                }
+                switch result {
+                case .success(let model):
+                    characters.append(model)
+                case .failure:
+                    break
+                }
+            }
+        }
+        group.notify(queue: .main) {
+            self.dataTuple = (episode, characters)
+        }
+    }
+    
+    // MARK: - Public functions
+    // Fetch Backing Episode Model
+    public func fetchEpisodeData() {
         guard
             let url = endpointUrl,
             let request = Request(url: url)
@@ -23,10 +65,10 @@ final class EpisodeDetailViewModel {
             return
         }
         
-        Service.shared.execute(request, expecting: Episode.self) { result in
+        Service.shared.execute(request, expecting: Episode.self) { [weak self] result in
             switch result {
-            case .success(let success):
-                print(String(describing: success))
+            case .success(let model):
+                self?.fetchRelatedCharacters(episode: model)
             case .failure:
                 break
             }
