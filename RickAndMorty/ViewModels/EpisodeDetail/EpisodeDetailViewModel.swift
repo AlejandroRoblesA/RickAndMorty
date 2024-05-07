@@ -19,7 +19,14 @@ final class EpisodeDetailViewModel {
         }
     }
 
+    enum SectionType {
+        case information(viewModels: [EpisodeInfoCollectionViewCellViewModel])
+        case characters(viewModel: [CharacterCollectionViewCellViewModel])
+    }
+    
     public weak var delegate: EpisodeDetailViewModelDelegate?
+    
+    public private(set) var sections: [SectionType] = []
     
     // MARK: - Init
     init(endpointUrl: URL?) {
