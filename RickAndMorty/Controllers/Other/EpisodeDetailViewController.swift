@@ -9,6 +9,7 @@ import UIKit
 
 // MARK: - EpisodeDetailViewController
 final class EpisodeDetailViewController: UIViewController {
+    
 
     private let viewModel: EpisodeDetailViewModel
     private let detailView = EpisodeDetailView()
@@ -27,6 +28,7 @@ final class EpisodeDetailViewController: UIViewController {
 
         view.addSubview(detailView)
         addConstraints()
+        detailView.delegate = self
         title = "Episode"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapShare))
         viewModel.delegate = self
@@ -51,5 +53,15 @@ final class EpisodeDetailViewController: UIViewController {
 extension EpisodeDetailViewController: EpisodeDetailViewModelDelegate {
     func didFetchEpisodeDetails() {
         detailView.configure(with: viewModel)
+    }
+}
+
+// MARK: - EpisodeDetailViewDelegate
+extension EpisodeDetailViewController: EpisodeDetailViewDelegate {
+    func episodeDetailView(_ detailView: EpisodeDetailView, didSelect character: Character) {
+        let viewController = CharacterDetailViewController(viewModel: .init(character: character))
+        viewController.title = character.name
+        viewController.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }

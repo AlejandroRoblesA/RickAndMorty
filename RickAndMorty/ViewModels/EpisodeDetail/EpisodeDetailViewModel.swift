@@ -40,12 +40,18 @@ final class EpisodeDetailViewModel {
         guard let dataTuple = dataTuple else { return }
         let episode = dataTuple.episode
         let characters = dataTuple.characters
+        
+        var dateFormatter = episode.created
+        if let date = CharacterInfoCollectionViewCellViewModel.dataFormatter.date(from: episode.created) {
+            dateFormatter = CharacterInfoCollectionViewCellViewModel.shortDateFormatter.string(from: date)
+        }
+        
         cellViewModels = [
             .information(viewModels: [
                 .init(title: "Episode Name", value: episode.name),
                 .init(title: "Air Date", value: episode.air_date),
                 .init(title: "Episode", value: episode.episode),
-                .init(title: "Created", value: episode.created)
+                .init(title: "Created", value: dateFormatter)
             ]),
             .characters(viewModel: characters.compactMap({ character in
                 return CharacterCollectionViewCellViewModel(characterName: character.name,
@@ -100,5 +106,11 @@ final class EpisodeDetailViewModel {
                 break
             }
         }
+    }
+    
+    public func character(at index: Int) -> Character? {
+        guard let dataTuple = dataTuple else { return nil }
+        return dataTuple.characters[index]
+        
     }
 }
