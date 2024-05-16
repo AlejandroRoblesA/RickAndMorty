@@ -16,6 +16,25 @@ enum SettingsOption: CaseIterable {
     case viewSeries
     case viewCode
     
+    var targetUrl: URL? {
+        switch self {
+        case .rateApp:
+            return nil
+        case .contactUs:
+            return URL(string: "https://www.google.com/")
+        case .terms:
+            return URL(string: "")
+        case .privacy:
+            return URL(string: "")
+        case .apiReference:
+            return URL(string: "")
+        case .viewSeries:
+            return URL(string: "")
+        case .viewCode:
+            return URL(string: "")
+        }
+    }
+    
     var displayTitle: String {
         switch self {
         case .rateApp:

@@ -7,13 +7,12 @@
 
 import UIKit
 import SwiftUI
+import SafariServices
 
 /// Controller to show various app options and settings
 final class SettingsViewController: UIViewController {
 
-    private let settingsSwiftUIView = UIHostingController(rootView: SettingsView(viewModel: SettingsViewModel(cellViewModels: SettingsOption.allCases.compactMap({
-        return SettingsCellViewModel(type: $0)
-    }))))
+    private var settingsSwiftUIView: UIHostingController<SettingsView>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,16 +23,37 @@ final class SettingsViewController: UIViewController {
     }
     
     private func addSwiftUIView() {
-        addChild(settingsSwiftUIView)
-        settingsSwiftUIView.didMove(toParent: self)
-        view.addSubview(settingsSwiftUIView.view)
-        settingsSwiftUIView.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        let settingsHostingController = UIHostingController(rootView: SettingsView(viewModel: SettingsViewModel(cellViewModels: SettingsOption.allCases.compactMap({
+            return SettingsCellViewModel(type: $0) { [weak self] option in
+                guard let self = self else { return }
+                self.handleTap(option: option)
+            }
+        }))))
+    
+        addChild(settingsHostingController)
+        settingsHostingController.didMove(toParent: self)
+        view.addSubview(settingsHostingController.view)
+        settingsHostingController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            settingsSwiftUIView.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            settingsSwiftUIView.view.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            settingsSwiftUIView.view.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            settingsSwiftUIView.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            settingsHostingController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            settingsHostingController.view.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            settingsHostingController.view.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            settingsHostingController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        self.settingsSwiftUIView = settingsHostingController
+    }
+    
+    private func handleTap(option: SettingsOption) {
+        guard Thread.current.isMainThread else { return }
+        
+        if let url = option.targetUrl {
+            // Open website
+            let safariViewController = SFSafariViewController(url: url)
+            present(safariViewController, animated: true)
+        } else if option == .rateApp {
+            // Show rating prompt
+        }
     }
 }
