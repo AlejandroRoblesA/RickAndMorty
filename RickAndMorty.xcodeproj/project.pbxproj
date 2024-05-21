@@ -53,6 +53,8 @@
 		A9A639F32A9EBF1E00AF5449 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A639F22A9EBF1E00AF5449 /* Service.swift */; };
 		A9A639F52A9EBF5500AF5449 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A639F42A9EBF5500AF5449 /* Request.swift */; };
 		A9A639F72A9EC14900AF5449 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A639F62A9EC14900AF5449 /* Endpoint.swift */; };
+		A9A929872BFD33C4004F8708 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A929862BFD33C4004F8708 /* LocationView.swift */; };
+		A9A9298A2BFD382F004F8708 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A929892BFD382F004F8708 /* LocationViewModel.swift */; };
 		A9CC039F2BB3621800520398 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CC039E2BB3621800520398 /* SearchViewController.swift */; };
 		A9D0D3682AB27074004BACBC /* CharacterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D0D3672AB27074004BACBC /* CharacterListViewModel.swift */; };
 		A9D0D36A2AB27111004BACBC /* CharacterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D0D3692AB27111004BACBC /* CharacterListView.swift */; };
@@ -108,6 +110,8 @@
 		A9A639F22A9EBF1E00AF5449 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		A9A639F42A9EBF5500AF5449 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		A9A639F62A9EC14900AF5449 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		A9A929862BFD33C4004F8708 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
+		A9A929892BFD382F004F8708 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		A9CC039E2BB3621800520398 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A9D0D3672AB27074004BACBC /* CharacterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListViewModel.swift; sourceTree = "<group>"; };
 		A9D0D3692AB27111004BACBC /* CharacterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListView.swift; sourceTree = "<group>"; };
@@ -221,6 +225,7 @@
 		A97924A32A95488E00816209 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A9A929882BFD380F004F8708 /* Location */,
 				A9A007332BF2792200D397B4 /* Settings */,
 				A9006B2A2BEAA10E00ED28BD /* EpisodeDetail */,
 				A99C51222ACF4949002A7000 /* CharacterDetail */,
@@ -265,6 +270,7 @@
 		A97924A72A95498E00816209 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A9A929852BFD33A5004F8708 /* Location */,
 				A9186B5C2BF5392000C923B7 /* SwiftUI */,
 				A9006B272BEAA0A400ED28BD /* EpisodeDetails */,
 				A96F4A052BACF86F0069C505 /* Episode */,
@@ -351,6 +357,22 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		A9A929852BFD33A5004F8708 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				A9A929862BFD33C4004F8708 /* LocationView.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		A9A929882BFD380F004F8708 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				A9A929892BFD382F004F8708 /* LocationViewModel.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -424,6 +446,7 @@
 				A99C51262ACF499A002A7000 /* CharacterInfoCollectionViewCellViewModel.swift in Sources */,
 				A97924922A9545B600816209 /* TabBarController.swift in Sources */,
 				A919EDBE2AAAB48C00EF4072 /* CharacterStatus.swift in Sources */,
+				A9A9298A2BFD382F004F8708 /* LocationViewModel.swift in Sources */,
 				A9D0D36A2AB27111004BACBC /* CharacterListView.swift in Sources */,
 				A9A639F52A9EBF5500AF5449 /* Request.swift in Sources */,
 				A97924B42A954B0400816209 /* EpisodeViewController.swift in Sources */,
@@ -453,6 +476,7 @@
 				A99C51242ACF498C002A7000 /* CharacterPhotoCollectionViewCellViewModel.swift in Sources */,
 				A979248E2A9545B600816209 /* AppDelegate.swift in Sources */,
 				A97924AE2A954AA800816209 /* Location.swift in Sources */,
+				A9A929872BFD33C4004F8708 /* LocationView.swift in Sources */,
 				A97924902A9545B600816209 /* SceneDelegate.swift in Sources */,
 				A96812EA2ABE28290087F877 /* FooterLoadingCollectionReusableView.swift in Sources */,
 				A97924B22A954AF200816209 /* LocationViewController.swift in Sources */,
