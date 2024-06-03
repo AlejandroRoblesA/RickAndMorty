@@ -19,8 +19,9 @@ final class LocationViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = "Locations"
         addSearchButton()
-        
         addConstraints()
+        viewModel.delegate = self
+        viewModel.fetchLocations()
     }
     
     private func addSearchButton() {
@@ -38,5 +39,12 @@ final class LocationViewController: UIViewController {
     
     @objc func didTapSearch() {
         
+    }
+}
+
+// MARK: LocationViewModelDelegate
+extension LocationViewController: LocationViewModelDelegate {
+    func didFetchInitialLocation() {
+        primaryView.configure(with: viewModel)
     }
 }

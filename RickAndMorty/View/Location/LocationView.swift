@@ -25,7 +25,7 @@ final class LocationView: UIView {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.alpha = 0
         table.isHidden = true
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(LocationTableViewCell.self, forCellReuseIdentifier: LocationTableViewCell.cellIdentifier)
         return table
     }()
     
@@ -38,15 +38,21 @@ final class LocationView: UIView {
     
     override init(frame:CGRect) {
         super.init(frame: frame)
-        backgroundColor = .red
+        backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
         addSubviews(tableView, spinner)
         spinner.startAnimating()
         addConstraints()
+        configureTable()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    private func configureTable() {
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     private func addConstraints() {
@@ -65,5 +71,33 @@ final class LocationView: UIView {
     
     public func configure(with viewModel: LocationViewModel) {
         self.viewModel = viewModel
+    }
+}
+
+extension LocationView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension LocationView: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel?.cellViewModels.count ?? Int.zero
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cellViewModels = viewModel?.cellViewModels else { fatalError() }
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: LocationTableViewCell.cellIdentifier, 
+                                                     for: indexPath) as? LocationTableViewCell
+        else { fatalError() }
+        let cellViewModel = cellViewModels[indexPath.row]
+        cell.textLabel?.text = cellViewModel.name
+        return cell
     }
 }
